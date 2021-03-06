@@ -43,6 +43,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activities.Register"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <receiver android:name=".Activities.Receiver"/>
 

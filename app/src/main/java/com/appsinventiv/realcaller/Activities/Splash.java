@@ -7,6 +7,7 @@ import android.util.Log;
 
 
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,14 +30,13 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-//                if (SharedPrefs.getUser() != null) {
-                Intent i = new Intent(Splash.this, Login.class);
-                startActivity(i);
-//                }
-//                else {
-//                    Intent i = new Intent(Splash.this, LoginMenu.class);
-//                    startActivity(i);
-//                }
+                if (SharedPrefs.getToken() != null && !SharedPrefs.getToken().equals("")) {
+                    Intent i = new Intent(Splash.this, MainActivity.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(Splash.this, Login.class);
+                    startActivity(i);
+                }
 
                 // close this activity
                 finish();

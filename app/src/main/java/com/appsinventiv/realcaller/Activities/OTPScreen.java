@@ -16,6 +16,7 @@ public class OTPScreen extends AppCompatActivity {
     ImageView back;
     TextView resend;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,7 @@ public class OTPScreen extends AppCompatActivity {
         resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(OTPScreen.this, MainActivity.class));
+                startActivity(new Intent(OTPScreen.this, Register.class));
             }
         });
 

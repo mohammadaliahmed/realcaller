@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
 //            startService(new Intent(this, BroadcastService.class));
 //        }
 
-        Intent svc = new Intent(this, BroadcastService.class);
-
-        startService(svc);
+//        Intent svc = new Intent(this, BroadcastService.class);
+//
+//        startService(svc);
 
     }
 

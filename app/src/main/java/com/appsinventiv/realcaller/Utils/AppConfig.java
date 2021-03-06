@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AppConfig {
 //    public static String LPTOP_ID = "http://172.29.27.84/accessale/";
         public static String LPTOP_ID = "http://192.168.8.102/accessaleserver/";
-    public static String SERVER_URL = "http://accessale.phonemart.co/";
+    public static String SERVER_URL = "https://real-caller.herokuapp.com/";
     public static String SHARE_URL = "http://accessale.com/";
     public static String BASE_URL = SERVER_URL;
     public static String API_USERNAME = "WF9.FJ8u'FP{c5Pw";

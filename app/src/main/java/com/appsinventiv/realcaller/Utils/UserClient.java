@@ -25,7 +25,7 @@ public interface UserClient {
 
 
     @Headers("Content-Type: application/json")
-    @POST("api/user/login")
+    @POST("api/login")
     Call<ApiResponse> login(
             @Body JsonObject jsonObject
 
@@ -38,8 +38,8 @@ public interface UserClient {
     );
 
     @Headers("Content-Type: application/json")
-    @POST("api/user/register")
-    Call<ApiResponse> register(
+    @POST("api/signup")
+    Call<ApiResponse> signup(
             @Body JsonObject jsonObject
 
     );

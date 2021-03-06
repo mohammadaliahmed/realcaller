@@ -54,12 +54,12 @@ public class SharedPrefs {
 //    }
 
 
-    public static String getadminFcmKey() {
-        return preferenceGetter("adminfcm");
+    public static String getToken() {
+        return preferenceGetter("bearer");
     }
 
-    public static void setadminFcmKey(String username) {
-        preferenceSetter("adminfcm", username);
+    public static void setToken(String username) {
+        preferenceSetter("bearer", username);
     }
 
     public static String getFcmKey() {

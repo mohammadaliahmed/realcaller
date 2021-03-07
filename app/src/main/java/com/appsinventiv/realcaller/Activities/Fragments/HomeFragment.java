@@ -1,5 +1,8 @@
 package com.appsinventiv.realcaller.Activities.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,13 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.appsinventiv.realcaller.Activities.Splash;
 import com.appsinventiv.realcaller.Adapters.SimpleFragmentPagerAdapter;
 import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -27,6 +33,7 @@ public class HomeFragment extends Fragment {
     boolean navigationDrawerVisible;
 
     ImageView menu;
+    TextView logout, navName;
     LinearLayout navigationDrawer;
 
     private int[] tabIcons = {
@@ -43,10 +50,18 @@ public class HomeFragment extends Fragment {
 
         viewPager = rootView.findViewById(R.id.viewpager);
         navigationDrawer = rootView.findViewById(R.id.navigationDrawer);
+        logout = rootView.findViewById(R.id.logout);
+        navName = rootView.findViewById(R.id.navName);
+
         menu = rootView.findViewById(R.id.menu);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showALert();
+            }
+        });
 
-
-
+        navName.setText(SharedPrefs.getName() + "\n" + SharedPrefs.getPhone());
 
 
         // Give the TabLayout the ViewPager
@@ -86,6 +101,31 @@ public class HomeFragment extends Fragment {
 
         return rootView;
 
+    }
+
+    private void showALert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Alert");
+        builder.setMessage("Do you want to logout? ");
+
+        // add the buttons
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPrefs.logout();
+                Intent intent = new Intent(getActivity(), Splash.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                getActivity().finish();
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

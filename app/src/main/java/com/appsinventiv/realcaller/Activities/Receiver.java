@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
+import com.appsinventiv.realcaller.Utils.ApplicationClass;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
 
 public class Receiver extends BroadcastReceiver {
@@ -41,7 +43,10 @@ public class Receiver extends BroadcastReceiver {
             //Toast.makeText(context, "1", Toast.LENGTH_SHORT).show();
             String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
             String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-            CommonUtils.showToast(number);
+//            CommonUtils.showToast(number);
+            if(number.length()>2){
+                showDialog(number);
+            }
             int state = 0;
             if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                 state = TelephonyManager.CALL_STATE_IDLE;
@@ -52,6 +57,22 @@ public class Receiver extends BroadcastReceiver {
             }
             onCallStateChanged(context, state, number);
         }
+    }
+
+    private void showDialog(String number) {
+        final Intent intent = new Intent(ApplicationClass.getInstance().getApplicationContext(), MyCustomDialog.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("phone_no",number);
+
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                ApplicationClass.getInstance().getApplicationContext().startActivity(intent);
+            }
+        },2000);
     }
 
     public void onCallStateChanged(Context context, int state, String number) {

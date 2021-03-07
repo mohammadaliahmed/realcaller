@@ -51,10 +51,13 @@ public class Register extends AppCompatActivity {
         wholeLayout = findViewById(R.id.wholeLayout);
         register = findViewById(R.id.register);
 
+        phone.setText(SharedPrefs.getPhone());
+        phone.setText("+9203158000333");
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Register.this,Login.class));
+                startActivity(new Intent(Register.this, Login.class));
             }
         });
 
@@ -62,9 +65,7 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (phone.getText().length() == 0) {
-                    phone.setError("Enter phone");
-                } else if (name.getText().length() == 0) {
+                if (name.getText().length() == 0) {
                     name.setError("Enter name");
                 } else if (email.getText().length() == 0) {
                     email.setError("Enter email");

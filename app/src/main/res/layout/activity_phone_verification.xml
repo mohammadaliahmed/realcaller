@@ -83,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="25dp"
                 android:layout_height="40dp"
+                android:id="@+id/phone"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/ccp"
                 android:background="@null"

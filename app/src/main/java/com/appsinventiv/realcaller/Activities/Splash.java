@@ -33,8 +33,14 @@ public class Splash extends AppCompatActivity {
                     Intent i = new Intent(Splash.this, MainActivity.class);
                     startActivity(i);
                 } else {
-                    Intent i = new Intent(Splash.this, PhoneVerification.class);
-                    startActivity(i);
+                    if (SharedPrefs.getName() != null && !SharedPrefs.getName().equals("")) {
+                        Intent i = new Intent(Splash.this, Register.class);
+                        startActivity(i);
+                    } else {
+                        Intent i = new Intent(Splash.this, PhoneVerification.class);
+                        startActivity(i);
+                    }
+
                 }
 
                 // close this activity

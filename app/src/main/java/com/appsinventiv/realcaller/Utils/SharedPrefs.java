@@ -54,12 +54,28 @@ public class SharedPrefs {
 //    }
 
 
+    public static String getName() {
+        return preferenceGetter("getName");
+    }
+
+    public static void setName(String username) {
+        preferenceSetter("getName", username);
+    }
+
     public static String getToken() {
         return preferenceGetter("bearer");
     }
 
     public static void setToken(String username) {
         preferenceSetter("bearer", username);
+    }
+
+    public static String getPhone() {
+        return preferenceGetter("getPhone");
+    }
+
+    public static void setPhone(String username) {
+        preferenceSetter("getPhone", username);
     }
 
     public static String getFcmKey() {

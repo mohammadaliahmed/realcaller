@@ -10,9 +10,9 @@
         android:layout_height="50dp">
 
         <ImageView
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/back"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:src="@drawable/ic_back" />
@@ -45,30 +45,31 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:id="@+id/phon"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:text="Enter your OTP code here"
+            android:text="Enter your OTP code sent to your phone"
 
             android:textSize="13dp" />
 
         <com.goodiebag.pinview.Pinview
             android:id="@+id/pinview"
             android:layout_width="wrap_content"
-            android:paddingBottom="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
             app:cursorVisible="false"
             app:forceKeyboard="false"
-            app:splitWidth="10dp"
             app:hint=""
             app:inputType="number"
             app:password="false"
             app:pinBackground="@drawable/pin_drawable"
             app:pinHeight="40dp"
             app:pinLength="6"
-            app:pinWidth="40dp" />
+            app:pinWidth="40dp"
+            app:splitWidth="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,18 +80,34 @@
             android:textSize="11sp" />
 
         <TextView
+            android:id="@+id/resend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/resend"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="RESEND NEW CODE"
             android:textColor="@color/colorBlue"
-            android:fontFamily="@font/roboto_medium"
-            android:textStyle="bold"
-            android:layout_marginBottom="50dp"
-            android:layout_marginTop="20dp"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/wholeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="#fff"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

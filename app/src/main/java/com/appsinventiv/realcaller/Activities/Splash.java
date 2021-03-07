@@ -3,7 +3,6 @@ package com.appsinventiv.realcaller.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 
 import com.appsinventiv.realcaller.R;
@@ -34,7 +33,7 @@ public class Splash extends AppCompatActivity {
                     Intent i = new Intent(Splash.this, MainActivity.class);
                     startActivity(i);
                 } else {
-                    Intent i = new Intent(Splash.this, Login.class);
+                    Intent i = new Intent(Splash.this, PhoneVerification.class);
                     startActivity(i);
                 }
 

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,12 +34,14 @@ public class Register extends AppCompatActivity {
     ImageView back;
     Button register;
     RelativeLayout wholeLayout;
+    TextView login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        login = findViewById(R.id.login);
         phone = findViewById(R.id.phone);
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
@@ -47,6 +50,13 @@ public class Register extends AppCompatActivity {
         back = findViewById(R.id.back);
         wholeLayout = findViewById(R.id.wholeLayout);
         register = findViewById(R.id.register);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Register.this,Login.class));
+            }
+        });
 
 
         register.setOnClickListener(new View.OnClickListener() {

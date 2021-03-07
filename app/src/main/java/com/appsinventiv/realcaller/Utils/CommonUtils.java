@@ -11,9 +11,13 @@ import android.text.format.DateFormat;
 import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,4 +139,18 @@ public class CommonUtils {
         return vId;
     }
 
+    public static String getDurationFormatted(Long duration) {
+        String dur = "";
+        if (duration < (60 * 60)) {
+            duration = duration * 1000;
+            SimpleDateFormat sdf = new SimpleDateFormat("mm:ss", Locale.getDefault());
+            dur = sdf.format(new Date(duration - TimeZone.getDefault().getRawOffset()));
+        } else {
+            duration = duration * 1000;
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            dur = sdf.format(new Date(duration - TimeZone.getDefault().getRawOffset()));
+        }
+        return dur;
+
+    }
 }

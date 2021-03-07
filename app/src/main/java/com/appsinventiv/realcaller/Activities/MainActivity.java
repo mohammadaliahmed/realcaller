@@ -17,7 +17,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.appsinventiv.realcaller.Activities.Fragments.ContactsFragment;
 import com.appsinventiv.realcaller.Activities.Fragments.HomeFragment;
+import com.appsinventiv.realcaller.Activities.Fragments.PremiumFragment;
 import com.appsinventiv.realcaller.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,20 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.CALL_PHONE, Manifest.permission.READ_SMS,
+                Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS,
                 Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS,
                 Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_NUMBERS,
                 Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.BIND_CALL_REDIRECTION_SERVICE};
-        //String val="";
 
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
 
-//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-//            startForegroundService(new Intent(this, BroadcastService.class));
-//        } else {
-//            startService(new Intent(this, BroadcastService.class));
-//        }
 
 //        Intent svc = new Intent(this, BroadcastService.class);
 //
@@ -110,13 +107,14 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_contact:
-//                    fragment = new NoticeBoardFragment();
+                    fragment = new ContactsFragment();
                     loadFragment(fragment);
 
                     return true;
                 case R.id.navigation_premium:
+                    fragment = new PremiumFragment();
+                    loadFragment(fragment);
 
-//                    startActivity(new Intent(MainActivity.this, CreateTicket.class));
                     return true;
                 case R.id.navigation_block:
 //                    fragment = new FAQsFragment();

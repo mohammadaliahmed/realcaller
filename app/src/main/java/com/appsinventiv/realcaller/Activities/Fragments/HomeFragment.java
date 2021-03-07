@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.appsinventiv.realcaller.Adapters.SimpleFragmentPagerAdapter;
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.CommonUtils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -20,6 +24,10 @@ public class HomeFragment extends Fragment {
     private View rootView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    boolean navigationDrawerVisible;
+
+    ImageView menu;
+    LinearLayout navigationDrawer;
 
     private int[] tabIcons = {
             R.drawable.users,
@@ -34,6 +42,11 @@ public class HomeFragment extends Fragment {
         rootView = inflater.inflate(R.layout.home_fragment, container, false);
 
         viewPager = rootView.findViewById(R.id.viewpager);
+        navigationDrawer = rootView.findViewById(R.id.navigationDrawer);
+        menu = rootView.findViewById(R.id.menu);
+
+
+
 
 
         // Give the TabLayout the ViewPager
@@ -54,9 +67,38 @@ public class HomeFragment extends Fragment {
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
 
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (navigationDrawerVisible) {
+                    slideDown(navigationDrawer);
+
+                    navigationDrawerVisible = false;
+
+                } else {
+                    navigationDrawerVisible = true;
+                    slideUp(navigationDrawer);
+                }
+            }
+        });
+
+
         return rootView;
 
     }
 
+
+    public void slideUp(View view) {
+        navigationDrawerVisible = true;
+        view.animate().translationX(CommonUtils.pxFromDp(getContext(), 250)).start(); // move away
+    }
+
+    // slide the view from its current position to below itself
+    public void slideDown(View view) {
+        navigationDrawerVisible = false;
+        view.animate().translationX(CommonUtils.pxFromDp(getContext(), 0)).start(); // move away
+
+    }
 
 }

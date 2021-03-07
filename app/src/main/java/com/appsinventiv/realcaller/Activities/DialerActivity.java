@@ -338,9 +338,16 @@ public class DialerActivity extends AppCompatActivity {
 
 
     public String removeLastChars(String str, int chars) {
-        numberString = str.substring(0, str.length() - chars);
-        number.setText(numberString);
-        return numberString;
+        if (str.length() > 0) {
+            numberString = str.substring(0, str.length() - chars);
+            number.setText(numberString);
+            return numberString;
+        } else {
+            numberString = "";
+            return "";
+        }
+
+
     }
 
 }

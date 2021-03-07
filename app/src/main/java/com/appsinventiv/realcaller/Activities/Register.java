@@ -52,7 +52,7 @@ public class Register extends AppCompatActivity {
         register = findViewById(R.id.register);
 
         phone.setText(SharedPrefs.getPhone());
-        phone.setText("+9203158000333");
+//        phone.setText("+9203158000333");
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

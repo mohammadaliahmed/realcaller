@@ -22,8 +22,17 @@ public class ListModel {
     @SerializedName("dateTime")
     @Expose
     private String dateTime;
+    @SerializedName("isBlocked")
+    @Expose
+    private Boolean isBlocked;
 
+    public Boolean getBlocked() {
+        return isBlocked;
+    }
 
+    public void setBlocked(Boolean blocked) {
+        isBlocked = blocked;
+    }
 
     public String getDateTime() {
         return dateTime;

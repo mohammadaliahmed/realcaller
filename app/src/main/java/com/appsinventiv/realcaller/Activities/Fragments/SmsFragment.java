@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsinventiv.realcaller.Activities.DialerActivity;
+import com.appsinventiv.realcaller.Activities.SearchNumber;
 import com.appsinventiv.realcaller.Adapters.CallLogsAdapter;
 import com.appsinventiv.realcaller.Adapters.SmsAdapter;
 import com.appsinventiv.realcaller.Models.CallLogsModel;
@@ -96,6 +97,12 @@ public class SmsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), DialerActivity.class));
+            }
+        });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SearchNumber.class));
             }
         });
     }

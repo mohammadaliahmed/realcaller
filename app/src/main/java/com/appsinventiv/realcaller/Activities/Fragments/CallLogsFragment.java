@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.appsinventiv.realcaller.Activities.DialerActivity;
+import com.appsinventiv.realcaller.Activities.SearchNumber;
 import com.appsinventiv.realcaller.Adapters.CallLogsAdapter;
 import com.appsinventiv.realcaller.Adapters.SimpleFragmentPagerAdapter;
 import com.appsinventiv.realcaller.Models.CallLogsModel;
@@ -92,6 +93,12 @@ public class CallLogsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), DialerActivity.class));
+            }
+        });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SearchNumber.class));
             }
         });
     }

@@ -45,6 +45,12 @@ public interface UserClient {
     );
 
     @Headers("Content-Type: application/json")
+    @GET("api/getblockedContacts")
+    Call<ApiResponse> getblockedContacts(
+            @Header("Authorization") String auth
+    );
+
+    @Headers("Content-Type: application/json")
     @GET("api/myProfileViewers")
     Call<ApiResponse> myProfileViewers(
             @Header("Authorization") String auth

@@ -21,14 +21,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsinventiv.realcaller.Activities.DialerActivity;
+import com.appsinventiv.realcaller.Activities.Login;
+import com.appsinventiv.realcaller.Activities.MainActivity;
+import com.appsinventiv.realcaller.Activities.SearchNumber;
+import com.appsinventiv.realcaller.Adapters.BlockedAdapter;
 import com.appsinventiv.realcaller.Adapters.CallLogsAdapter;
 import com.appsinventiv.realcaller.Models.CallLogsModel;
+import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
+import com.appsinventiv.realcaller.NetworkResponses.Data;
+import com.appsinventiv.realcaller.NetworkResponses.ListModel;
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.AppConfig;
+import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
+import com.appsinventiv.realcaller.Utils.UserClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class BlockedFragment extends Fragment {
@@ -37,9 +55,9 @@ public class BlockedFragment extends Fragment {
     FloatingActionButton fab2, fab3, fab4;
     boolean flag = true;
     TextView text;
-    private List<CallLogsModel> callLogsList = new ArrayList<>();
     RecyclerView recycler;
-    CallLogsAdapter adapter;
+    BlockedAdapter adapter;
+    private List<ListModel> blockedList = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -47,9 +65,10 @@ public class BlockedFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.call_logs_fragment, container, false);
         recycler = rootView.findViewById(R.id.recycler);
-        setupFloating();
-        getPermissions();
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
+        setupFloating();
+        getDataFromServer();
 
         return rootView;
 
@@ -89,81 +108,50 @@ public class BlockedFragment extends Fragment {
                 startActivity(new Intent(getActivity(), DialerActivity.class));
             }
         });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SearchNumber.class));
+            }
+        });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void readCallLogs() {
+    public void getDataFromServer() {
+        UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
 
-        Uri uriCallLogs = Uri.parse("content://call_log/calls");
-        Cursor cursorCallLogs = getActivity().getContentResolver().query(uriCallLogs, null, null, null);
-        cursorCallLogs.moveToFirst();
-        do {
-            String stringNumber = cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.NUMBER));
-            String stringDate = cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.DATE));
-            String stringName = cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.CACHED_NAME));
-            String stringDuration = cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.DURATION));
-            String stringType = cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.TYPE));
-            String simNumber = cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID));
+        String token=SharedPrefs.getToken();
+//         token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDI3M2YyOTZjNWRkMDVjNDBiMDBmYiIsImlhdCI6MTYxNDk2Nzc5OH0.C4rY9GdePnA6MKuAqc0BhPzGbWHP0FwoseigdBiS1LY";
+        Call<ApiResponse> call = getResponse.getblockedContacts("berer " + token);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().getStatus()) {
+                        blockedList = response.body().getData().getList();
+                        adapter = new BlockedAdapter(getActivity(), blockedList);
+                        recycler.setAdapter(adapter);
+                    } else {
+                        CommonUtils.showToast(response.body().getMessage());
+                    }
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+//                         jObjError.getJSONObject("error").getString("message")
+                        CommonUtils.showToast(jObjError.getString("message").toString());
 
-            Date callDayTime = new Date(Long.valueOf(stringDate));
-            int dircode = Integer.parseInt(stringType);
-            String callType = "";
-            switch (dircode) {
-                case CallLog.Calls.OUTGOING_TYPE:
-                    callType = "OUTGOING";
-                    break;
-
-                case CallLog.Calls.INCOMING_TYPE:
-                    callType = "INCOMING";
-                    break;
-
-                case CallLog.Calls.MISSED_TYPE:
-                    callType = "MISSED";
-                    break;
-                case CallLog.Calls.REJECTED_TYPE:
-                    callType = "REJECTED";
-                    break;
+                    } catch (Exception e) {
+                        CommonUtils.showToast(e.getMessage());
+                    }
+                }
             }
 
-            callLogsList.add(new CallLogsModel(stringNumber, stringName, callType, stringDuration, simNumber));
-
-        } while (cursorCallLogs.moveToNext());
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        adapter = new CallLogsAdapter(getActivity(), callLogsList, new CallLogsAdapter.CallLogsAdapterCallbacks() {
             @Override
-            public void onClick(String number) {
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
 
             }
         });
-        recycler.setAdapter(adapter);
 
 
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getPermissions() {
-        int PERMISSION_ALL = 1;
-        String[] PERMISSIONS = {
-                Manifest.permission.READ_CALL_LOG
-        };
-
-        if (!hasPermissions(getActivity(), PERMISSIONS)) {
-            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS, PERMISSION_ALL);
-        } else {
-            readCallLogs();
-        }
-
-    }
-
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
 

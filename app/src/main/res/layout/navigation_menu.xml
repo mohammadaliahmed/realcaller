@@ -54,12 +54,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/whoViewMyProfile"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="10dp"
@@ -82,9 +83,9 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="10dp"
@@ -107,9 +108,9 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="10dp"
@@ -132,9 +133,9 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="10dp"
@@ -156,9 +157,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:background="#aaa" />
+        android:background="#aaa"
+        android:padding="10dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -180,9 +181,9 @@
         android:textColor="#000" />
 
     <TextView
+        android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/logout"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="10dp"

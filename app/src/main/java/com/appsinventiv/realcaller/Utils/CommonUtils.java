@@ -63,6 +63,16 @@ public class CommonUtils {
         }
     }
 
+    public static String getOnlyDay(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+
+//        return DateFormat.format("EEE, dd-MM-yyyy", smsTime).toString();
+        return DateFormat.format("EEE", smsTime).toString();
+
+    }
+
     public static List<String> getCategoryList() {
         List<String> list = new ArrayList<>();
         list.add("Art");

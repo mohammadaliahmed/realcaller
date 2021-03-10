@@ -40,6 +40,7 @@ public class Constants {
     public static String LOCATION = "";
     public static boolean My_ADS = false;
     public static boolean POSTS_FRAGMENT = false;
+    public static String CALL_NUMBER = "";
 
 
 

@@ -1,15 +1,25 @@
 package com.appsinventiv.realcaller.Activities;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.ApplicationClass;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.Constants;
 
 public class Receiver extends BroadcastReceiver {
 
@@ -44,7 +54,7 @@ public class Receiver extends BroadcastReceiver {
             String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
             String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
 //            CommonUtils.showToast(number);
-            if(number.length()>2){
+            if (number.length() > 2) {
                 showDialog(number);
             }
             int state = 0;
@@ -60,19 +70,21 @@ public class Receiver extends BroadcastReceiver {
     }
 
     private void showDialog(String number) {
-        final Intent intent = new Intent(ApplicationClass.getInstance().getApplicationContext(), MyCustomDialog.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("phone_no",number);
+        Constants.CALL_NUMBER=number;
+        mContext.startService(new Intent(mContext, FloatingWindowGFG.class));
 
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                ApplicationClass.getInstance().getApplicationContext().startActivity(intent);
-            }
-        },2000);
+
+//        final Intent intent = new Intent(ApplicationClass.getInstance().getApplicationContext(), MyCustomDialog.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        intent.putExtra("phone_no", number);
+//
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                ApplicationClass.getInstance().getApplicationContext().startActivity(intent);
+//            }
+//        }, 2000);
     }
 
     public void onCallStateChanged(Context context, int state, String number) {

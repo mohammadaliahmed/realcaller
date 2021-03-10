@@ -30,6 +30,7 @@ public class ApiResponse {
     @Expose
     private List<Object> errors = null;
 
+
     public Data getData() {
         return data;
     }

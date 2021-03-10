@@ -1,6 +1,7 @@
 package com.appsinventiv.realcaller.Utils;
 
 
+import com.appsinventiv.realcaller.Models.SaveContactModel;
 import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
 import com.google.gson.JsonObject;
 
@@ -9,10 +10,14 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserClient {
 
@@ -30,7 +35,22 @@ public interface UserClient {
             @Body JsonObject jsonObject
 
     );
- @Headers("Content-Type: application/json")
+
+    @Headers("Content-Type: application/json")
+    @POST("api/saveContactList")
+    Call<ApiResponse> saveContactList(
+            @Header("Authorization") String auth,
+            @Body SaveContactModel jsonObject
+
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("api/myProfileViewers")
+    Call<ApiResponse> myProfileViewers(
+            @Header("Authorization") String auth
+    );
+
+    @Headers("Content-Type: application/json")
     @POST("api/ad/deleteAd")
     Call<ApiResponse> deleteAd(
             @Body JsonObject jsonObject
@@ -63,7 +83,9 @@ public interface UserClient {
     Call<ApiResponse> createAd(
             @Body JsonObject jsonObject
 
-    );@Headers("Content-Type: application/json")
+    );
+
+    @Headers("Content-Type: application/json")
     @POST("api/ad/editAd")
     Call<ApiResponse> editAd(
             @Body JsonObject jsonObject
@@ -99,9 +121,10 @@ public interface UserClient {
     );
 
     @Headers("Content-Type: application/json")
-    @POST("api/ad/getMyAds")
-    Call<ApiResponse> getMyAds(
-            @Body JsonObject jsonObject
+    @GET("api/searchByPhone/{id}")
+    Call<ApiResponse> searchByPhone(
+            @Path("id") String id,
+            @Header("Authorization") String auth
 
     );
 

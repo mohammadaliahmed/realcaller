@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.appsinventiv.realcaller.Activities.Fragments.BlockedFragment;
 import com.appsinventiv.realcaller.Activities.Fragments.CallLogsFragment;
+import com.appsinventiv.realcaller.Activities.Fragments.FavouriteFragment;
+import com.appsinventiv.realcaller.Activities.Fragments.SmsFragment;
 
 import java.util.List;
 
@@ -23,7 +26,18 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     // This determines the fragment for each tab
     @Override
     public Fragment getItem(int position) {
-        return new CallLogsFragment();
+        if (position == 0) {
+            return new CallLogsFragment();
+        } else if (position == 1) {
+            return new FavouriteFragment();
+        } else if (position == 2) {
+            return new SmsFragment();
+        } else if (position == 3) {
+            return new BlockedFragment();
+        } else {
+            return null;
+        }
+
     }
 
     // This determines the number of tabs

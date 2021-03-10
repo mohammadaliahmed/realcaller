@@ -1,13 +1,18 @@
 package com.appsinventiv.realcaller.Activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,8 +25,26 @@ import androidx.fragment.app.FragmentTransaction;
 import com.appsinventiv.realcaller.Activities.Fragments.ContactsFragment;
 import com.appsinventiv.realcaller.Activities.Fragments.HomeFragment;
 import com.appsinventiv.realcaller.Activities.Fragments.PremiumFragment;
+import com.appsinventiv.realcaller.Models.NameAndPhone;
+import com.appsinventiv.realcaller.Models.SaveContactModel;
+import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.AppConfig;
+import com.appsinventiv.realcaller.Utils.ApplicationClass;
+import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
+import com.appsinventiv.realcaller.Utils.UserClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(fragment);
 
 
+        WindowManager wm = (WindowManager) ApplicationClass.getInstance().getApplicationContext().getSystemService(WINDOW_SERVICE);
+        if (checkOverlayDisplayPermission()) {
+            // FloatingWindowGFG service is started
+//            startService(new Intent(MainActivity.this, FloatingWindowGFG.class));
+            // The MainActivity closes here
+//            finish();
+            uploadContactsToServer();
+        } else {
+            // If permission is not given,
+            // it shows the AlertDialog box and
+            // redirects to the Settings
+            requestOverlayDisplayPermission();
+        }
+
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {
                 Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
@@ -51,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        } else {
+
         }
 
 
@@ -58,6 +97,50 @@ public class MainActivity extends AppCompatActivity {
 
         startService(svc);
 
+    }
+
+    private void uploadContactsToServer() {
+        UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
+        List<NameAndPhone> list = new ArrayList<>();
+        list.add(new NameAndPhone("Ahsan Jutt", "+923236994882"));
+        list.add(new NameAndPhone("Dev", "+923236994883"));
+        list.add(new NameAndPhone("Test tested", "+923236994884"));
+        list.add(new NameAndPhone("Ali Ahmed", "+923158000333"));
+
+        SaveContactModel model = new SaveContactModel(list);
+
+        Call<ApiResponse> call = getResponse.saveContactList("berer " + SharedPrefs.getToken(), model);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.code() == 200) {
+//                    if (response.body().getStatus()) {
+//                        SharedPrefs.setToken(response.body().getData().getAccessToken());
+//                        Intent i = new Intent(Login.this, MainActivity.class);
+//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(i);
+//                        finish();
+//                    } else {
+//                        CommonUtils.showToast(response.body().getMessage());
+//                    }
+//                } else {
+//                    try {
+//                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+////                         jObjError.getJSONObject("error").getString("message")
+//                        CommonUtils.showToast(jObjError.getString("message").toString());
+//
+//                    } catch (Exception e) {
+//                        CommonUtils.showToast(e.getMessage());
+//                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                CommonUtils.showToast(t.getMessage());
+
+            }
+        });
     }
 
     public boolean hasPermissions(Context context, String... permissions) {
@@ -128,5 +211,57 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    private boolean checkOverlayDisplayPermission() {
+        // Android Version is lesser than Marshmallow
+        // or the API is lesser than 23
+        // doesn't need 'Display over other apps' permission enabling.
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            // If 'Display over other apps' is not enabled it
+            // will return false or else true
+            if (!Settings.canDrawOverlays(this)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    private void requestOverlayDisplayPermission() {
+        // An AlertDialog is created
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // This dialog can be closed, just by
+        // taping outside the dialog-box
+        builder.setCancelable(true);
+
+        // The title of the Dialog-box is set
+        builder.setTitle("Screen Overlay Permission Needed");
+
+        // The message of the Dialog-box is set
+        builder.setMessage("Enable 'Display over other apps' from System Settings.");
+
+        // The event of the Positive-Button is set
+        builder.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // The app will redirect to the 'Display over other apps' in Settings.
+                // This is an Implicit Intent. This is needed when any Action is needed
+                // to perform, here it is
+                // redirecting to an other app(Settings).
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+
+                // This method will start the intent. It takes two parameter,
+                // one is the Intent and the other is
+                // an requestCode Integer. Here it is -1.
+                startActivityForResult(intent, RESULT_OK);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        // The Dialog will show in the screen
+        dialog.show();
+    }
 
 }

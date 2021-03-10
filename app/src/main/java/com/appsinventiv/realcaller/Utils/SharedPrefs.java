@@ -3,10 +3,12 @@ package com.appsinventiv.realcaller.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.appsinventiv.realcaller.Models.ContactModel;
 import com.appsinventiv.realcaller.Models.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,23 +37,23 @@ public class SharedPrefs {
         return playersList;
     }
 
-//    public static void setViewedAdList(HashMap<Integer, AdsModel> itemList) {
-//
-//        Gson gson = new Gson();
-//        String json = gson.toJson(itemList);
-//        preferenceSetter("setViewedAdList", json);
-//    }
-//
-//    public static HashMap<Integer, AdsModel> getViewedAdList() {
-//        Gson gson = new Gson();
-//
-//        HashMap<Integer, AdsModel> retMap = new Gson().fromJson(
-//                preferenceGetter("setViewedAdList"), new TypeToken<HashMap<Integer, AdsModel>>() {
-//                }.getType()
-//        );
-//
-//        return retMap;
-//    }
+    public static void setContactsMap(HashMap<String, String> itemList) {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(itemList);
+        preferenceSetter("setContactsMap", json);
+    }
+
+    public static HashMap<String, String> getContactsMap() {
+        Gson gson = new Gson();
+
+        HashMap<String, String> retMap = new Gson().fromJson(
+                preferenceGetter("setContactsMap"), new TypeToken<HashMap<String, String>>() {
+                }.getType()
+        );
+
+        return retMap;
+    }
 
 
     public static String getName() {

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
+import com.appsinventiv.realcaller.NetworkResponses.Data;
 import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.AppConfig;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
@@ -149,7 +150,8 @@ public class Register extends AppCompatActivity {
                 wholeLayout.setVisibility(View.GONE);
                 if (response.code() == 200) {
                     if (response.body().getStatus()) {
-                        SharedPrefs.setToken(response.body().getData().getAccessToken());
+                        Data data=(Data)response.body().getData();
+                        SharedPrefs.setToken(data.getAccessToken());
                         Intent i = new Intent(Register.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);

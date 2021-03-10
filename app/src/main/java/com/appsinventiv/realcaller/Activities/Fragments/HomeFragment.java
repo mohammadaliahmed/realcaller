@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.appsinventiv.realcaller.Activities.Splash;
+import com.appsinventiv.realcaller.Activities.WhoViewedMyProfile;
 import com.appsinventiv.realcaller.Adapters.SimpleFragmentPagerAdapter;
 import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
@@ -31,6 +32,7 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     boolean navigationDrawerVisible;
+    LinearLayout whoViewMyProfile;
 
     ImageView menu;
     TextView logout, navName;
@@ -50,6 +52,7 @@ public class HomeFragment extends Fragment {
 
         viewPager = rootView.findViewById(R.id.viewpager);
         navigationDrawer = rootView.findViewById(R.id.navigationDrawer);
+        whoViewMyProfile = rootView.findViewById(R.id.whoViewMyProfile);
         logout = rootView.findViewById(R.id.logout);
         navName = rootView.findViewById(R.id.navName);
 
@@ -66,7 +69,12 @@ public class HomeFragment extends Fragment {
 
         // Give the TabLayout the ViewPager
         tabLayout = rootView.findViewById(R.id.sliding_tabs);
-
+        whoViewMyProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), WhoViewedMyProfile.class));
+            }
+        });
 
         List<String> departmentList = new ArrayList<>();
         departmentList.add("");

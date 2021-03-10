@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
+import com.appsinventiv.realcaller.NetworkResponses.Data;
 import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.AppConfig;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
@@ -87,7 +88,8 @@ public class Login extends AppCompatActivity {
                 wholeLayout.setVisibility(View.GONE);
                 if (response.code() == 200) {
                     if (response.body().getStatus()) {
-                        SharedPrefs.setToken(response.body().getData().getAccessToken());
+                        Data data=response.body().getData();
+                        SharedPrefs.setToken(data.getAccessToken());
                         Intent i = new Intent(Login.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);

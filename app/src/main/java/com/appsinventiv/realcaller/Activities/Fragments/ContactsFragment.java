@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appsinventiv.realcaller.Adapters.ContactsAdapter;
 import com.appsinventiv.realcaller.Models.ContactModel;
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,7 @@ public class ContactsFragment extends Fragment {
     ContactsAdapter adapter;
     private List<ContactModel> contactList = new ArrayList<>();
     HashMap<String, ContactModel> hashMap = new HashMap<>();
+    HashMap<String, String> contactsMap = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,8 +78,9 @@ public class ContactsFragment extends Fragment {
         Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
         while (phones.moveToNext()) {
             String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace(" ", "").replace("-", "");
             hashMap.put(name, new ContactModel(phoneNumber, name));
+            contactsMap.put(phoneNumber, name);
 
 
         }
@@ -96,6 +99,7 @@ public class ContactsFragment extends Fragment {
         });
 
         adapter.updateList(contactList);
+        SharedPrefs.setContactsMap(contactsMap);
 
 
     }

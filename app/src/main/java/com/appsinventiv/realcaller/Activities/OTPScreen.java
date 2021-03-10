@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
+import com.appsinventiv.realcaller.NetworkResponses.Data;
 import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.AppConfig;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
@@ -57,8 +58,8 @@ public class OTPScreen extends AppCompatActivity {
         pin = findViewById(R.id.pinview);
         back = findViewById(R.id.back);
         phoneNumber = getIntent().getStringExtra("number");
-        if(phoneNumber.contains("9203")){
-            phoneNumber=phoneNumber.replace("9203","923");
+        if (phoneNumber.contains("9203")) {
+            phoneNumber = phoneNumber.replace("9203", "923");
         }
         phon.setText("Enter your OTP code sent to your phone " + phoneNumber);
         back.setOnClickListener(new View.OnClickListener() {
@@ -102,14 +103,15 @@ public class OTPScreen extends AppCompatActivity {
                 wholeLayout.setVisibility(View.GONE);
                 if (response.code() == 200) {
                     if (response.body().getStatus()) {
-                        if (response.body().getData().getName().equalsIgnoreCase("")) {
+                        Data data = (Data) response.body().getData();
+                        if (data.getName().equalsIgnoreCase("")) {
                             Intent i = new Intent(OTPScreen.this, Register.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
                             finish();
                         } else {
-                            SharedPrefs.setToken(response.body().getData().getAccessToken());
-                            SharedPrefs.setName(response.body().getData().getName());
+                            SharedPrefs.setToken(data.getAccessToken());
+                            SharedPrefs.setName(data.getName());
                             SharedPrefs.setPhone(phoneNumber);
                             Intent i = new Intent(OTPScreen.this, MainActivity.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

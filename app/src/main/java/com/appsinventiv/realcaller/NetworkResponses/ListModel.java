@@ -3,9 +3,7 @@ package com.appsinventiv.realcaller.NetworkResponses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class Data {
+public class ListModel {
     @SerializedName("id")
     @Expose
     private String id;
@@ -24,18 +22,8 @@ public class Data {
     @SerializedName("dateTime")
     @Expose
     private String dateTime;
-    @SerializedName("list")
-    @Expose
-    List<ListModel> list=null;
 
 
-    public List<ListModel> getList() {
-        return list;
-    }
-
-    public void setList(List<ListModel> list) {
-        this.list = list;
-    }
 
     public String getDateTime() {
         return dateTime;

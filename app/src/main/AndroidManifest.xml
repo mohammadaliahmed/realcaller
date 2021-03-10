@@ -13,10 +13,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:name="com.appsinventiv.realcaller.Utils.ApplicationClass"
@@ -59,10 +59,14 @@
         <activity android:name=".Activities.DialerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.MyCustomDialog" />
+        <activity android:name=".Activities.WhoViewedMyProfile" />
 
         <receiver android:name=".Activities.Receiver" />
 
         <service android:name=".Activities.BroadcastService" />
+        <service android:name=".Activities.FloatingWindowGFG"/>
+
+
         <service android:name="com.appsinventiv.realcaller.Utils.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

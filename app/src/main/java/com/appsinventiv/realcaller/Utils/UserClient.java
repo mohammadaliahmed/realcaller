@@ -135,6 +135,14 @@ public interface UserClient {
     );
 
     @Headers("Content-Type: application/json")
+    @GET("api/blockNumber/{id}")
+    Call<ApiResponse> blockNumber(
+            @Path("id") String id,
+            @Header("Authorization") String auth
+
+    );
+
+    @Headers("Content-Type: application/json")
     @POST("api/ad/adDetails")
     Call<ApiResponse> adDetails(
             @Body JsonObject jsonObject

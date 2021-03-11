@@ -113,6 +113,11 @@ public class DialerActivity extends AppCompatActivity {
                 numberString = numb;
                 number.setText(numberString);
             }
+
+            @Override
+            public void onLongClick(String number) {
+
+            }
         });
         logsRecycler.setAdapter(callLogsAdapter);
 
@@ -158,6 +163,7 @@ public class DialerActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void getPermissions() {
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {

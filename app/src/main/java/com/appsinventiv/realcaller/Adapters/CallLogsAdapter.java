@@ -89,6 +89,13 @@ public class CallLogsAdapter extends RecyclerView.Adapter<CallLogsAdapter.ViewHo
                 callbacks.onClick(model.getPhone());
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                callbacks.onLongClick(model.getPhone());
+                return false;
+            }
+        });
     }
 
     @Override
@@ -114,5 +121,7 @@ public class CallLogsAdapter extends RecyclerView.Adapter<CallLogsAdapter.ViewHo
 
     public interface CallLogsAdapterCallbacks {
         public void onClick(String number);
+
+        public void onLongClick(String number);
     }
 }

@@ -83,7 +83,7 @@ public class OTPScreen extends AppCompatActivity {
             }
         });
 
-        requestCode();
+//        requestCode();
 
     }
 

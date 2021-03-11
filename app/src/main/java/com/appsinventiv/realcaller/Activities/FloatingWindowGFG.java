@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class FloatingWindowGFG extends Service {
     private WindowManager windowManager;
     private ImageView maximizeBtn, buttonClose;
     TextView phone, name;
+    ProgressBar progress;
 
 
     // As FloatingWindowGFG inherits Service class,
@@ -83,6 +85,7 @@ public class FloatingWindowGFG extends Service {
 
         // inflate a new view hierarchy from the floating_layout xml
         floatView = (ViewGroup) inflater.inflate(R.layout.floating_layout, null);
+        progress = floatView.findViewById(R.id.progress);
         phone = floatView.findViewById(R.id.phone);
         phone.setText(Constants.CALL_NUMBER);
         searchByPhoneApi();
@@ -219,13 +222,14 @@ public class FloatingWindowGFG extends Service {
     }
 
     private void searchByPhoneApi() {
-
+        progress.setVisibility(View.VISIBLE);
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
 
         Call<ApiResponse> call = getResponse.searchByPhone(Constants.CALL_NUMBER, "berer " + SharedPrefs.getToken());
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                progress.setVisibility(View.GONE);
                 if (response.code() == 200) {
                     if (response.body().getData() != null) {
                         Data data = (Data) response.body().getData();
@@ -249,6 +253,7 @@ public class FloatingWindowGFG extends Service {
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 CommonUtils.showToast(t.getMessage());
+                progress.setVisibility(View.GONE);
 
             }
         });

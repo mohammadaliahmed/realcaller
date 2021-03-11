@@ -84,6 +84,16 @@
             android:text=""
             android:textColor="#fff" />
 
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/progress"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/phone"
+            android:indeterminateTint="#fff" />
+
     </RelativeLayout>
 
     <ImageView

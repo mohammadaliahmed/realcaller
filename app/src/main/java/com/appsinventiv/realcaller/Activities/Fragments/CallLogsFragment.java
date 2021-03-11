@@ -1,7 +1,9 @@
 package com.appsinventiv.realcaller.Activities.Fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -26,15 +28,27 @@ import com.appsinventiv.realcaller.Activities.SearchNumber;
 import com.appsinventiv.realcaller.Adapters.CallLogsAdapter;
 import com.appsinventiv.realcaller.Adapters.SimpleFragmentPagerAdapter;
 import com.appsinventiv.realcaller.Models.CallLogsModel;
+import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
+import com.appsinventiv.realcaller.NetworkResponses.Data;
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.AppConfig;
+import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
+import com.appsinventiv.realcaller.Utils.UserClient;
 import com.google.android.gms.common.util.Strings;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONObject;
 
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CallLogsFragment extends Fragment {
@@ -146,10 +160,74 @@ public class CallLogsFragment extends Fragment {
             public void onClick(String number) {
 
             }
+
+            @Override
+            public void onLongClick(String number) {
+                showBlockAlert(number);
+
+            }
         });
         recycler.setAdapter(adapter);
 
 
+    }
+
+    private void showBlockAlert(String number) {
+        AlertDialog dialog = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Alert");
+        builder.setMessage("Do you want to block this number? ");
+        // add the buttons
+        AlertDialog finalDialog = dialog;
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                blockNumber(number);
+                CommonUtils.showToast("Blocked successfully");
+                finalDialog.dismiss();
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    private void blockNumber(String number) {
+
+        UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
+
+        Call<ApiResponse> call = getResponse.blockNumber(number, "berer " + SharedPrefs.getToken());
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().getData() != null) {
+//                        CommonUtils.showToast(response.body().getMessage());
+                    } else {
+                        CommonUtils.showToast(response.body().getMessage());
+
+                    }
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+//                         jObjError.getJSONObject("error").getString("message")
+                        CommonUtils.showToast(jObjError.getString("message").toString());
+
+                    } catch (Exception e) {
+                        CommonUtils.showToast(e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                CommonUtils.showToast(t.getMessage());
+
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

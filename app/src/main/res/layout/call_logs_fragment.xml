@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#fff">
 
 
@@ -18,7 +18,7 @@
         android:visibility="gone"
 
         app:backgroundTint="@color/colorLightPink"
-        app:fabCustomSize="40dp"
+        app:fabCustomSize="50dp"
         app:fabSize="auto" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,7 +32,7 @@
 
         android:visibility="gone"
         app:backgroundTint="@color/colorLightPink"
-        app:fabCustomSize="50dp"
+        app:fabCustomSize="55dp"
         app:fabSize="auto" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,7 +51,7 @@
         android:id="@+id/recycler"
 
         android:layout_width="match_parent"
-        tools:listitem="@layout/call_log_item_layout"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:listitem="@layout/call_log_item_layout" />
 
 </RelativeLayout>

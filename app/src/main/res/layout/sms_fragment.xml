@@ -18,7 +18,7 @@
         android:visibility="gone"
 
         app:backgroundTint="@color/colorLightPink"
-        app:fabCustomSize="40dp"
+        app:fabCustomSize="50dp"
         app:fabSize="auto" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,7 +32,7 @@
 
         android:visibility="gone"
         app:backgroundTint="@color/colorLightPink"
-        app:fabCustomSize="50dp"
+        app:fabCustomSize="55dp"
         app:fabSize="auto" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

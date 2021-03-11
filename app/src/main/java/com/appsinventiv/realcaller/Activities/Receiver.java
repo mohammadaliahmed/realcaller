@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,8 +72,10 @@ public class Receiver extends BroadcastReceiver {
     }
 
     private void showDialog(String number) {
-        Constants.CALL_NUMBER=number;
-        mContext.startService(new Intent(mContext, FloatingWindowGFG.class));
+        Constants.CALL_NUMBER = number;
+        if (checkOverlayDisplayPermission()) {
+            mContext.startService(new Intent(mContext, FloatingWindowGFG.class));
+        }
 
 
 //        final Intent intent = new Intent(ApplicationClass.getInstance().getApplicationContext(), MyCustomDialog.class);
@@ -85,6 +89,23 @@ public class Receiver extends BroadcastReceiver {
 //                ApplicationClass.getInstance().getApplicationContext().startActivity(intent);
 //            }
 //        }, 2000);
+    }
+
+    private boolean checkOverlayDisplayPermission() {
+        // Android Version is lesser than Marshmallow
+        // or the API is lesser than 23
+        // doesn't need 'Display over other apps' permission enabling.
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            // If 'Display over other apps' is not enabled it
+            // will return false or else true
+            if (!Settings.canDrawOverlays(mContext)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
 
     public void onCallStateChanged(Context context, int state, String number) {

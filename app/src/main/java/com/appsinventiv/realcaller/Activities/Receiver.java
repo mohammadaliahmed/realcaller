@@ -73,6 +73,7 @@ public class Receiver extends BroadcastReceiver {
 
     private void showDialog(String number) {
         Constants.CALL_NUMBER = number;
+//        Constants.CALL_NUMBER = "+923158000333";
         if (checkOverlayDisplayPermission()) {
             mContext.startService(new Intent(mContext, FloatingWindowGFG.class));
         }

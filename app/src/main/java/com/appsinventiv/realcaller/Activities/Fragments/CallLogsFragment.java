@@ -60,6 +60,7 @@ public class CallLogsFragment extends Fragment {
     private List<CallLogsModel> callLogsList = new ArrayList<>();
     RecyclerView recycler;
     CallLogsAdapter adapter;
+    private AlertDialog dialog;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -173,25 +174,25 @@ public class CallLogsFragment extends Fragment {
     }
 
     private void showBlockAlert(String number) {
-        AlertDialog dialog = null;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Alert");
         builder.setMessage("Do you want to block this number? ");
         // add the buttons
-        AlertDialog finalDialog = dialog;
+
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 blockNumber(number);
                 CommonUtils.showToast("Blocked successfully");
-                finalDialog.dismiss();
+                dialog.dismiss();
 
             }
         });
         builder.setNegativeButton("Cancel", null);
 
         // create and show the alert dialog
-        dialog = builder.create();
+         dialog = builder.create();
         dialog.show();
     }
 

@@ -84,15 +84,29 @@
             android:text=""
             android:textColor="#fff" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:visibility="gone"
+            android:id="@+id/seeLocation"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/grey_rounded_white_bg"
+            android:inputType="text"
+            android:padding="5dp"
+            android:text="Want to see location?"
+            android:textSize="12sp" />
+
         <ProgressBar
+            android:id="@+id/progress"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/progress"
-            android:visibility="gone"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/phone"
-            android:indeterminateTint="#fff" />
+            android:indeterminateTint="#fff"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

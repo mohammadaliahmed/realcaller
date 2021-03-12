@@ -16,6 +16,7 @@ import com.appsinventiv.realcaller.NetworkResponses.Data;
 import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.AppConfig;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.KeyboardUtils;
 import com.appsinventiv.realcaller.Utils.SharedPrefs;
 import com.appsinventiv.realcaller.Utils.UserClient;
 import com.goodiebag.pinview.Pinview;
@@ -47,12 +48,15 @@ public class OTPScreen extends AppCompatActivity {
 
     TextView phon;
 
+    RelativeLayout wholeee;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opt_screen);
 
         phon = findViewById(R.id.phon);
+        wholeee = findViewById(R.id.wholeee);
         wholeLayout = findViewById(R.id.wholeLayout);
         resend = findViewById(R.id.resend);
         pin = findViewById(R.id.pinview);
@@ -78,6 +82,7 @@ public class OTPScreen extends AppCompatActivity {
         pin.setPinViewEventListener(new Pinview.PinViewEventListener() {
             @Override
             public void onDataEntered(Pinview pinview, boolean fromUser) {
+                KeyboardUtils.forceCloseKeyboard(wholeee);
                 //Make api calls here or what not
                 callLoginApi();
             }

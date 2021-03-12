@@ -28,10 +28,12 @@ import com.appsinventiv.realcaller.Activities.Fragments.PremiumFragment;
 import com.appsinventiv.realcaller.Models.NameAndPhone;
 import com.appsinventiv.realcaller.Models.SaveContactModel;
 import com.appsinventiv.realcaller.NetworkResponses.ApiResponse;
+import com.appsinventiv.realcaller.NetworkResponses.Data;
 import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.AppConfig;
 import com.appsinventiv.realcaller.Utils.ApplicationClass;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.Constants;
 import com.appsinventiv.realcaller.Utils.SharedPrefs;
 import com.appsinventiv.realcaller.Utils.UserClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -49,6 +51,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private Fragment fragment;
+    private double lng;
+    private double lat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         fragment = new HomeFragment();
         loadFragment(fragment);
 
@@ -82,13 +87,26 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.READ_CONTACTS,
                 Manifest.permission.WRITE_CONTACTS,
                 Manifest.permission.SYSTEM_ALERT_WINDOW,
+                Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS,
                 Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_NUMBERS,
                 Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.BIND_CALL_REDIRECTION_SERVICE};
 
+
+        String[] PERMISSIONS2 = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+        };
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         } else {
+
+        }
+
+        if (!hasPermissions(this, PERMISSIONS2)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        } else {
+            Intent intent = new Intent(MainActivity.this, GPSTrackerActivity.class);
+            startActivityForResult(intent, 1);
 
         }
 
@@ -114,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.code() == 200) {
+
 //                    if (response.body().getStatus()) {
 //                        SharedPrefs.setToken(response.body().getData().getAccessToken());
 //                        Intent i = new Intent(Login.this, MainActivity.class);
@@ -154,6 +173,62 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            if (data != null) {
+                Bundle extras = data.getExtras();
+                lng = extras.getDouble("Longitude");
+                lat = extras.getDouble("Latitude");
+                updateLocationToServer();
+
+
+            }
+
+        }
+    }
+
+    private void updateLocationToServer() {
+        UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
+
+        JsonObject map = new JsonObject();
+
+        map.addProperty("lat", lat);
+        map.addProperty("lon", lng);
+
+
+        Call<ApiResponse> call = getResponse.updateLatLong(map, "berer " + SharedPrefs.getToken());
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().getStatus()) {
+                        Data data = response.body().getData();
+
+                    } else {
+                        CommonUtils.showToast(response.body().getMessage());
+                    }
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+//                         jObjError.getJSONObject("error").getString("message")
+                        CommonUtils.showToast(jObjError.getString("message").toString());
+
+                    } catch (Exception e) {
+                        CommonUtils.showToast(e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void loadFragment(Fragment fragment) {

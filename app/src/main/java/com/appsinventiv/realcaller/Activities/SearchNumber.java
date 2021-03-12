@@ -51,6 +51,7 @@ public class SearchNumber extends AppCompatActivity {
         number = findViewById(R.id.number);
         dataTv = findViewById(R.id.data);
         progress = findViewById(R.id.progress);
+        number.setText(Constants.CALL_NUMBER);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +71,7 @@ public class SearchNumber extends AppCompatActivity {
         progress.setVisibility(View.VISIBLE);
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
 
-        Call<ApiResponse> call = getResponse.searchByPhone(number.getText().toString(), "berer " + SharedPrefs.getToken());
+        Call<ApiResponse> call = getResponse.searchByPhone(number.getText().toString(), true, "berer " + SharedPrefs.getToken());
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {

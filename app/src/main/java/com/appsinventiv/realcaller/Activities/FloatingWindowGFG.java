@@ -55,6 +55,7 @@ public class FloatingWindowGFG extends Service {
     private ImageView maximizeBtn, buttonClose;
     TextView phone, name;
     ProgressBar progress;
+    Button seeLocation;
 
 
     // As FloatingWindowGFG inherits Service class,
@@ -93,6 +94,7 @@ public class FloatingWindowGFG extends Service {
         // The Buttons and the EditText are connected with
         // the corresponding component id used in floating_layout xml file
         name = floatView.findViewById(R.id.name);
+        seeLocation = floatView.findViewById(R.id.seeLocation);
         maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
         buttonClose = floatView.findViewById(R.id.buttonClose);
         buttonClose.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +104,27 @@ public class FloatingWindowGFG extends Service {
             }
         });
 
+        seeLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopSelf();
+
+                // The window is removed from the screen
+                windowManager.removeView(floatView);
+
+                // The app will maximize again. So the MainActivity
+                // class will be called again.
+                Intent backToHome = new Intent(FloatingWindowGFG.this, SearchNumber.class);
+
+                // 1) FLAG_ACTIVITY_NEW_TASK flag helps activity to start a new task on the history stack.
+                // If a task is already running like the floating window service, a new activity will not be started.
+                // Instead the task will be brought back to the front just like the MainActivity here
+                // 2) FLAG_ACTIVITY_CLEAR_TASK can be used in the conjunction with FLAG_ACTIVITY_NEW_TASK. This flag will
+                // kill the existing task first and then new activity is started.
+                backToHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(backToHome);
+            }
+        });
 
         // WindowManager.LayoutParams takes a lot of parameters to set the
         // the parameters of the layout. One of them is Layout_type.
@@ -224,8 +247,9 @@ public class FloatingWindowGFG extends Service {
     private void searchByPhoneApi() {
         progress.setVisibility(View.VISIBLE);
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
-
-        Call<ApiResponse> call = getResponse.searchByPhone(Constants.CALL_NUMBER, "berer " + SharedPrefs.getToken());
+        String token = SharedPrefs.getToken();
+//        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDUyMmRjY2VhMTgxMjYwY2NiZTM3YyIsImlhdCI6MTYxNTE0MzY0NH0.S6EYI33Mt5k1Qp0R32_l-AsGxdT06ywJBEsbDPAtJ2I";
+        Call<ApiResponse> call = getResponse.searchByPhone(Constants.CALL_NUMBER, false, "berer " + token);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -234,6 +258,7 @@ public class FloatingWindowGFG extends Service {
                     if (response.body().getData() != null) {
                         Data data = (Data) response.body().getData();
                         name.setText(data.getName());
+                        seeLocation.setVisibility(View.VISIBLE);
                     } else {
                         CommonUtils.showToast(response.body().getMessage());
 

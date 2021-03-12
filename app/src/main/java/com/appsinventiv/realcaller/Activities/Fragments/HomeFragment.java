@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.appsinventiv.realcaller.Activities.BroadcastService;
+import com.appsinventiv.realcaller.Activities.MainActivity;
 import com.appsinventiv.realcaller.Activities.Splash;
 import com.appsinventiv.realcaller.Activities.WhoViewedMyProfile;
 import com.appsinventiv.realcaller.Adapters.SimpleFragmentPagerAdapter;
@@ -36,7 +38,7 @@ public class HomeFragment extends Fragment {
 
     ImageView menu;
     TextView logout, navName;
-    LinearLayout navigationDrawer;
+    RelativeLayout navigationDrawer;
 
     private int[] tabIcons = {
             R.drawable.users,
@@ -95,13 +97,28 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (navigationDrawerVisible) {
-                    slideDown(navigationDrawer);
+                    navigationDrawer.setVisibility(View.GONE);
+//                    slideDown(navigationDrawer);
 
                     navigationDrawerVisible = false;
 
                 } else {
                     navigationDrawerVisible = true;
-                    slideUp(navigationDrawer);
+                    navigationDrawer.setVisibility(View.VISIBLE);
+//                    slideUp(navigationDrawer);
+                }
+            }
+        });
+
+        navigationDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (navigationDrawerVisible) {
+                    navigationDrawer.setVisibility(View.GONE);
+//                    slideDown(navigationDrawer);
+
+                    navigationDrawerVisible = false;
+
                 }
             }
         });
@@ -120,6 +137,8 @@ public class HomeFragment extends Fragment {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                Intent myService = new Intent(getActivity(), BroadcastService.class);
+                getActivity().stopService(myService);
                 SharedPrefs.logout();
                 Intent intent = new Intent(getActivity(), Splash.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

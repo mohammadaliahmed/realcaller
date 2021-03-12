@@ -45,6 +45,15 @@ public interface UserClient {
     );
 
     @Headers("Content-Type: application/json")
+    @POST("api/updateLatLong")
+    Call<ApiResponse> updateLatLong(
+
+            @Body JsonObject jsonObject,
+            @Header("Authorization") String auth
+
+    );
+
+    @Headers("Content-Type: application/json")
     @GET("api/getblockedContacts")
     Call<ApiResponse> getblockedContacts(
             @Header("Authorization") String auth
@@ -127,17 +136,18 @@ public interface UserClient {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("api/searchByPhone/{id}")
+    @GET("api/searchByPhone/{id}/{location}")
     Call<ApiResponse> searchByPhone(
             @Path("id") String id,
+            @Path("location") boolean location,
             @Header("Authorization") String auth
 
     );
 
     @Headers("Content-Type: application/json")
-    @GET("api/blockNumber/{id}")
+    @POST("api/blockNumber/{phone}")
     Call<ApiResponse> blockNumber(
-            @Path("id") String id,
+            @Path("phone") String phone,
             @Header("Authorization") String auth
 
     );

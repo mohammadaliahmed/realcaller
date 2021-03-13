@@ -62,7 +62,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="30dp"
@@ -80,11 +80,11 @@
                 app:ccp_textColor="#000" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:layout_width="match_parent"
-                android:layout_marginRight="25dp"
-                android:layout_height="40dp"
                 android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
                 android:layout_toRightOf="@id/ccp"
                 android:background="@null"
                 android:backgroundTint="#fff"
@@ -92,10 +92,13 @@
                 android:textColor="#000" />
 
             <ImageView
+                android:id="@+id/clear"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:src="@drawable/ic_cross_grey" />
 
         </RelativeLayout>

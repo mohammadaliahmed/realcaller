@@ -42,7 +42,9 @@ import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -120,6 +122,17 @@ public class MainActivity extends AppCompatActivity {
     private void uploadContactsToServer() {
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
         List<NameAndPhone> list = new ArrayList<>();
+        HashMap<String, String> contactsMap = SharedPrefs.getContactsMap();
+
+//        for (Map.Entry<String, String> entry : contactsMap.entrySet()) {
+//            String phone = entry.getKey();
+//            String name = entry.getValue();
+//            list.add(new NameAndPhone(name, phone));
+//
+//        }
+//
+//
+
         list.add(new NameAndPhone("Ahsan Jutt", "+923236994882"));
         list.add(new NameAndPhone("Dev", "+923236994883"));
         list.add(new NameAndPhone("Test tested", "+923236994884"));

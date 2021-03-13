@@ -1,5 +1,7 @@
 package com.appsinventiv.realcaller.NetworkResponses;
 
+import android.content.Intent;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,19 +17,62 @@ public class Data {
     @SerializedName("phone")
     @Expose
     private String phone;
+    @SerializedName("lon")
+    @Expose
+    private Double lon;
+    @SerializedName("lat")
+    @Expose
+    private Double lat;
     @SerializedName("email")
     @Expose
     private String email;
     @SerializedName("accessToken")
     @Expose
     private String accessToken;
+    @SerializedName("freeLocationCount")
+    @Expose
+    private Integer freeLocationCount;
+    @SerializedName("freeCount")
+    @Expose
+    private Integer freeCount;
     @SerializedName("dateTime")
     @Expose
     private String dateTime;
     @SerializedName("list")
     @Expose
-    List<ListModel> list=null;
+    List<ListModel> list = null;
 
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Integer getFreeLocationCount() {
+        return freeLocationCount;
+    }
+
+    public void setFreeLocationCount(Integer freeLocationCount) {
+        this.freeLocationCount = freeLocationCount;
+    }
+
+    public Integer getFreeCount() {
+        return freeCount;
+    }
+
+    public void setFreeCount(Integer freeCount) {
+        this.freeCount = freeCount;
+    }
 
     public List<ListModel> getList() {
         return list;

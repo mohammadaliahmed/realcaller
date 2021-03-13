@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -20,6 +21,7 @@ public class PhoneVerification extends AppCompatActivity {
     private String foneCode;
     Button login;
     AppCompatEditText phone;
+    ImageView clear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class PhoneVerification extends AppCompatActivity {
 
         phone = findViewById(R.id.phone);
         login = findViewById(R.id.login);
+        clear = findViewById(R.id.clear);
 //        login.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -37,6 +40,12 @@ public class PhoneVerification extends AppCompatActivity {
 
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
         foneCode = "+" + ccp.getDefaultCountryCode();
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                phone.setText("");
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

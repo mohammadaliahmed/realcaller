@@ -3,6 +3,8 @@ package com.appsinventiv.realcaller.Utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +13,7 @@ import android.text.format.DateFormat;
 import android.widget.Toast;
 
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +41,21 @@ public class CommonUtils {
                 Toast.makeText(ApplicationClass.getInstance().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public static String getFullAddress(Context context, Double lat, Double lon) {
+        String address = "";
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+
+            address = addresses.get(0).getAddressLine(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        return address;
     }
 
     private static final String ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm";

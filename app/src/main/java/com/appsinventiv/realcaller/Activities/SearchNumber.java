@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.appsinventiv.realcaller.R;
 import com.appsinventiv.realcaller.Utils.AppConfig;
 import com.appsinventiv.realcaller.Utils.CommonUtils;
 import com.appsinventiv.realcaller.Utils.Constants;
+import com.appsinventiv.realcaller.Utils.KeyboardUtils;
 import com.appsinventiv.realcaller.Utils.SharedPrefs;
 import com.appsinventiv.realcaller.Utils.UserClient;
 
@@ -35,6 +37,7 @@ public class SearchNumber extends AppCompatActivity {
     ImageView search;
     TextView dataTv;
     ProgressBar progress;
+    RelativeLayout asdasdas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class SearchNumber extends AppCompatActivity {
         }
         this.setTitle("Search Location");
         search = findViewById(R.id.search);
+        asdasdas = findViewById(R.id.asdasdas);
         number = findViewById(R.id.number);
         dataTv = findViewById(R.id.data);
         progress = findViewById(R.id.progress);
@@ -68,6 +72,7 @@ public class SearchNumber extends AppCompatActivity {
     }
 
     private void performSearch() {
+        KeyboardUtils.forceCloseKeyboard(asdasdas);
         progress.setVisibility(View.VISIBLE);
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
 
@@ -79,7 +84,8 @@ public class SearchNumber extends AppCompatActivity {
                 if (response.code() == 200) {
                     if (response.body().getData() != null) {
                         Data data = (Data) response.body().getData();
-                        dataTv.setText(data.getName() + "\n" + data.getPhone());
+                        dataTv.setText(data.getName() + "\n" + data.getPhone() + "\n\nLocation: " + CommonUtils.getFullAddress(SearchNumber.this, data.getLat(), data.getLon()));
+
                     } else {
                         CommonUtils.showToast(response.body().getMessage());
 

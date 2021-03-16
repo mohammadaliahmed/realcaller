@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.appsinventiv.realcaller.Models.ContactModel;
+import com.appsinventiv.realcaller.Models.SmsModel;
 import com.appsinventiv.realcaller.Models.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,17 +23,17 @@ public class SharedPrefs {
 
     }
 
-    public static void setLikedList(List<Integer> itemList) {
+    public static void setFavouriteMsgs(List<SmsModel> itemList) {
 
         Gson gson = new Gson();
         String json = gson.toJson(itemList);
-        preferenceSetter("likes", json);
+        preferenceSetter("setFavouriteMsgs", json);
     }
 
-    public static List getLikedList() {
+    public static List<SmsModel> getFavouriteMsgs() {
         Gson gson = new Gson();
-        List<Integer> playersList = (List<Integer>) gson.fromJson(preferenceGetter("likes"),
-                new TypeToken<List<Integer>>() {
+        List<SmsModel> playersList = (List<SmsModel>) gson.fromJson(preferenceGetter("setFavouriteMsgs"),
+                new TypeToken<List<SmsModel>>() {
                 }.getType());
         return playersList;
     }
@@ -78,6 +79,14 @@ public class SharedPrefs {
 
     public static void setPhone(String username) {
         preferenceSetter("getPhone", username);
+    }
+
+    public static String getEmail() {
+        return preferenceGetter("getEmail");
+    }
+
+    public static void setEmail(String username) {
+        preferenceSetter("getEmail", username);
     }
 
     public static String getFcmKey() {

@@ -68,7 +68,7 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callbacks.onClick(model.getPhone());
+                callbacks.onClick(model,position);
             }
         });
     }
@@ -92,6 +92,6 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.ViewHolder> {
     }
 
     public interface SmsAdapterCallbacks {
-        public void onClick(String number);
+        public void onClick(SmsModel model,int position);
     }
 }

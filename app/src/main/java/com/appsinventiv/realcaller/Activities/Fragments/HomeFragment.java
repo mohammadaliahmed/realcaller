@@ -3,6 +3,7 @@ package com.appsinventiv.realcaller.Activities.Fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.appsinventiv.realcaller.Activities.BroadcastService;
 import com.appsinventiv.realcaller.Activities.MainActivity;
+import com.appsinventiv.realcaller.Activities.Settings;
 import com.appsinventiv.realcaller.Activities.Splash;
 import com.appsinventiv.realcaller.Activities.WhoViewedMyProfile;
 import com.appsinventiv.realcaller.Adapters.SimpleFragmentPagerAdapter;
@@ -34,11 +36,13 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     boolean navigationDrawerVisible;
-    LinearLayout whoViewMyProfile;
+    LinearLayout whoViewMyProfile, notification, upgrade, invite;
 
     ImageView menu;
     TextView logout, navName;
     RelativeLayout navigationDrawer;
+    TextView feedback, settings;
+
 
     private int[] tabIcons = {
             R.drawable.users,
@@ -51,6 +55,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.home_fragment, container, false);
+
+        upgrade = rootView.findViewById(R.id.upgrade);
+        notification = rootView.findViewById(R.id.notification);
+        whoViewMyProfile = rootView.findViewById(R.id.whoViewMyProfile);
+        feedback = rootView.findViewById(R.id.feedback);
+        invite = rootView.findViewById(R.id.invite);
+        settings = rootView.findViewById(R.id.settings);
 
         viewPager = rootView.findViewById(R.id.viewpager);
         navigationDrawer = rootView.findViewById(R.id.navigationDrawer);
@@ -65,6 +76,56 @@ public class HomeFragment extends Fragment {
                 showALert();
             }
         });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        upgrade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (navigationDrawerVisible) {
+                    navigationDrawer.setVisibility(View.GONE);
+//                    slideDown(navigationDrawer);
+
+                    navigationDrawerVisible = false;
+
+                }
+
+                ((MainActivity) getActivity()).loadPremiumFragment();
+
+            }
+        });
+
+
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getActivity().getPackageName()));
+                startActivity(i);
+            }
+        });
+
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Real Caller\n Download Now\n" + "http://play.google.com/store/apps/details?id=" + getActivity().getPackageName());
+                startActivity(Intent.createChooser(shareIntent, "Share App via.."));
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), Settings.class));
+            }
+        });
+
 
         navName.setText(SharedPrefs.getName() + "\n" + SharedPrefs.getPhone());
 
@@ -127,6 +188,7 @@ public class HomeFragment extends Fragment {
         return rootView;
 
     }
+
 
     private void showALert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

@@ -110,6 +110,9 @@ public class OTPScreen extends AppCompatActivity {
                     if (response.body().getStatus()) {
                         Data data = (Data) response.body().getData();
                         if (data.getName().equalsIgnoreCase("")) {
+                            SharedPrefs.setPhone(phoneNumber);
+                            SharedPrefs.setEmail(data.getEmail());
+
                             Intent i = new Intent(OTPScreen.this, Register.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
@@ -117,6 +120,7 @@ public class OTPScreen extends AppCompatActivity {
                         } else {
                             SharedPrefs.setToken(data.getAccessToken());
                             SharedPrefs.setName(data.getName());
+                            SharedPrefs.setEmail(data.getEmail());
                             SharedPrefs.setPhone(phoneNumber);
                             Intent i = new Intent(OTPScreen.this, MainActivity.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

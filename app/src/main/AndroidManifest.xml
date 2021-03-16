@@ -96,6 +96,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.GPSTrackerActivity" />
+        <activity android:name=".Activities.Settings" />
+        <activity android:name=".Activities.ProfileSettings" />
 
 
         <service android:name="com.appsinventiv.realcaller.Utils.MyFirebaseMessagingService">

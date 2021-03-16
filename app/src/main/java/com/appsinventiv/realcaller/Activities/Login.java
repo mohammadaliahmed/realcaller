@@ -90,6 +90,8 @@ public class Login extends AppCompatActivity {
                     if (response.body().getStatus()) {
                         Data data=response.body().getData();
                         SharedPrefs.setToken(data.getAccessToken());
+                        SharedPrefs.setPhone(data.getPhone());
+                        SharedPrefs.setName(data.getName());
                         Intent i = new Intent(Login.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);

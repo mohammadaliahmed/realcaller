@@ -51,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:id="@+id/upgrade"
                 android:background="@drawable/grey_rounded_only"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
@@ -100,7 +101,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-
+                android:id="@+id/notification"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
@@ -150,7 +151,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-
+                android:id="@+id/invite"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
@@ -183,6 +184,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/settings"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:padding="10dp"
@@ -192,6 +194,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/feedback"
 
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"

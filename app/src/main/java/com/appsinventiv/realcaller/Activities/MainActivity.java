@@ -55,12 +55,13 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment;
     private double lng;
     private double lat;
+    private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         fragment = new HomeFragment();
@@ -123,20 +124,21 @@ public class MainActivity extends AppCompatActivity {
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
         List<NameAndPhone> list = new ArrayList<>();
         HashMap<String, String> contactsMap = SharedPrefs.getContactsMap();
+        if (contactsMap != null) {
+            for (Map.Entry<String, String> entry : contactsMap.entrySet()) {
+                String phone = entry.getKey();
+                String name = entry.getValue();
+                list.add(new NameAndPhone(name, phone));
 
-//        for (Map.Entry<String, String> entry : contactsMap.entrySet()) {
-//            String phone = entry.getKey();
-//            String name = entry.getValue();
-//            list.add(new NameAndPhone(name, phone));
-//
-//        }
+            }
+        }
 //
 //
 
-        list.add(new NameAndPhone("Ahsan Jutt", "+923236994882"));
-        list.add(new NameAndPhone("Dev", "+923236994883"));
-        list.add(new NameAndPhone("Test tested", "+923236994884"));
-        list.add(new NameAndPhone("Ali Ahmed", "+923158000333"));
+//        list.add(new NameAndPhone("Ahsan Jutt", "+923236994882"));
+//        list.add(new NameAndPhone("Dev", "+923236994883"));
+//        list.add(new NameAndPhone("Test tested", "+923236994884"));
+//        list.add(new NameAndPhone("Ali Ahmed", "+923158000333"));
 
         SaveContactModel model = new SaveContactModel(list);
 
@@ -198,22 +200,27 @@ public class MainActivity extends AppCompatActivity {
                 lng = extras.getDouble("Longitude");
                 lat = extras.getDouble("Latitude");
                 updateLocationToServer();
-
-
             }
-
         }
+    }
+
+    public void loadPremiumFragment() {
+//        MenuItem item = navigation.getMenu().findItem(R.id.navigation_premium);
+//
+//        mOnNavigationItemSelectedListener.onNavigationItemSelected(item);
+        navigation.setSelectedItemId(R.id.navigation_premium);
+
+
+//        fragment = new PremiumFragment();
+//        loadFragment(fragment);
     }
 
     private void updateLocationToServer() {
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
-
         JsonObject map = new JsonObject();
-
+        map.addProperty("phone", SharedPrefs.getPhone());
         map.addProperty("lat", lat);
         map.addProperty("lon", lng);
-
-
         Call<ApiResponse> call = getResponse.updateLatLong(map, "berer " + SharedPrefs.getToken());
         call.enqueue(new Callback<ApiResponse>() {
             @Override

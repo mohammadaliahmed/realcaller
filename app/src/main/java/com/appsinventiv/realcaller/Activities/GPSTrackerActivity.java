@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -132,8 +133,8 @@ public class GPSTrackerActivity extends AppCompatActivity implements
                 intent.putExtra("Longitude", mLastLocation.getLongitude());
                 intent.putExtra("Latitude", mLastLocation.getLatitude());
                 setResult(RESULT_OK, intent);
-//                SharedPrefs.setLat("" + mLastLocation.getLatitude());
-//                SharedPrefs.setLon("" + mLastLocation.getLongitude());
+                SharedPrefs.setLat("" + mLastLocation.getLatitude());
+                SharedPrefs.setLon("" + mLastLocation.getLongitude());
                 manager.removeUpdates(locationListener);
 
                 finish();
@@ -151,8 +152,8 @@ public class GPSTrackerActivity extends AppCompatActivity implements
                                     intent.putExtra("Longitude", location.getLongitude());
                                     intent.putExtra("Latitude", location.getLatitude());
                                     setResult(RESULT_OK, intent);
-//                                    SharedPrefs.setLat("" + mLastLocation.getLatitude());
-//                                    SharedPrefs.setLon("" + mLastLocation.getLongitude());
+                                    SharedPrefs.setLat("" + mLastLocation.getLatitude());
+                                    SharedPrefs.setLon("" + mLastLocation.getLongitude());
                                     manager.removeUpdates(locationListener);
                                     finish();
 

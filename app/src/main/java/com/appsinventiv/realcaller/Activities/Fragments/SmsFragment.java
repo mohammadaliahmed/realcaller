@@ -1,8 +1,10 @@
 package com.appsinventiv.realcaller.Activities.Fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -30,6 +32,8 @@ import com.appsinventiv.realcaller.Adapters.SmsAdapter;
 import com.appsinventiv.realcaller.Models.CallLogsModel;
 import com.appsinventiv.realcaller.Models.SmsModel;
 import com.appsinventiv.realcaller.R;
+import com.appsinventiv.realcaller.Utils.CommonUtils;
+import com.appsinventiv.realcaller.Utils.SharedPrefs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -161,13 +165,57 @@ public class SmsFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         adapter = new SmsAdapter(getActivity(), smsList, new SmsAdapter.SmsAdapterCallbacks() {
             @Override
-            public void onClick(String number) {
+            public void onClick(SmsModel model,int position) {
+                showSmsView(model);
 
             }
         });
         recycler.setAdapter(adapter);
 
 
+    }
+
+    private void showSmsView(SmsModel model) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if (SharedPrefs.getContactsMap() != null && SharedPrefs.getContactsMap().size() > 0) {
+            if (SharedPrefs.getContactsMap().containsKey(model.getPhone())) {
+                builder.setTitle(SharedPrefs.getContactsMap().get(model.getPhone()));
+
+            } else {
+                builder.setTitle(model.getPhone());
+            }
+        } else {
+            builder.setTitle(model.getPhone());
+        }
+//        builder.setTitle(model.getPhone());
+        builder.setMessage(model.getBody());
+
+
+        // add the buttons
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("Mark as Important", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                CommonUtils.showToast("Marked as important");
+                List<SmsModel> list = SharedPrefs.getFavouriteMsgs();
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
+                list.add(model);
+                SharedPrefs.setFavouriteMsgs(list);
+
+
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

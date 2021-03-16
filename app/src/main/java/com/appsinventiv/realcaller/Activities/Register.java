@@ -366,6 +366,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.OnCon
                         Data data = (Data) response.body().getData();
                         SharedPrefs.setToken(data.getAccessToken());
                         SharedPrefs.setName(data.getName());
+                        SharedPrefs.setName(data.getEmail());
                         SharedPrefs.setPhone(data.getPhone());
                         Intent i = new Intent(Register.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

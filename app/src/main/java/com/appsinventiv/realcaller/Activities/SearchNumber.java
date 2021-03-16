@@ -57,6 +57,8 @@ public class SearchNumber extends AppCompatActivity {
         progress = findViewById(R.id.progress);
         number.setText(Constants.CALL_NUMBER);
 
+//        dataTv.setText("Location: " + CommonUtils.getFullAddress(SearchNumber.this, 31.5325656,74.338289));
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,8 +77,10 @@ public class SearchNumber extends AppCompatActivity {
         KeyboardUtils.forceCloseKeyboard(asdasdas);
         progress.setVisibility(View.VISIBLE);
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
+        String num = number.getText().toString();
+//        num = "03075323974";
 
-        Call<ApiResponse> call = getResponse.searchByPhone(number.getText().toString(), true, "berer " + SharedPrefs.getToken());
+        Call<ApiResponse> call = getResponse.searchByPhone(num, true, "berer " + SharedPrefs.getToken());
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -84,7 +88,11 @@ public class SearchNumber extends AppCompatActivity {
                 if (response.code() == 200) {
                     if (response.body().getData() != null) {
                         Data data = (Data) response.body().getData();
-                        dataTv.setText(data.getName() + "\n" + data.getPhone() + "\n\nLocation: " + CommonUtils.getFullAddress(SearchNumber.this, data.getLat(), data.getLon()));
+                        if (response.body().getMessage().equalsIgnoreCase("reached free Limit")) {
+                            CommonUtils.showToast(response.body().getMessage());
+                        } else {
+                            dataTv.setText(data.getName() + "\n" + data.getPhone() + "\n\nLocation: " + CommonUtils.getFullAddress(SearchNumber.this, data.getLat(), data.getLon()));
+                        }
 
                     } else {
                         CommonUtils.showToast(response.body().getMessage());

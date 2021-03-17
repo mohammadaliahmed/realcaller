@@ -159,7 +159,7 @@ public class CallLogsFragment extends Fragment {
         adapter = new CallLogsAdapter(getActivity(), callLogsList, new CallLogsAdapter.CallLogsAdapterCallbacks() {
             @Override
             public void onClick(String number) {
-
+                showSpamAlert(number);
             }
 
             @Override
@@ -192,7 +192,30 @@ public class CallLogsFragment extends Fragment {
         builder.setNegativeButton("Cancel", null);
 
         // create and show the alert dialog
-         dialog = builder.create();
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showSpamAlert(String number) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Alert");
+        builder.setMessage("Do you want to mark as spam? ");
+        // add the buttons
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                blockNumber(number);
+                CommonUtils.showToast("Marked as spam successfully");
+                dialog.dismiss();
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        dialog = builder.create();
         dialog.show();
     }
 

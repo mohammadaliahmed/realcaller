@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/asdasdas"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/asdasdas"
     android:background="#fff">
 
     <LinearLayout
+        android:id="@+id/agreementLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:text="Agreement"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:text="THIS DEMONSTRATION LICENSE AGREEMENT (this “Agreement”) is made by and between ANDERSSON TECHNOLOGIES LLC, a Pennsylvania limited liability company (“Licensor”), and the individual or entity desiring to install the software included with this Agreement (“Licensee”). By clicking the “I Agree” or similar button or in the absence of such button, by installing the software included with this Agreement or in respect of which this Agreement is presented to Licensee (the “Software”), Licensee agrees to and accepts each of the terms, conditions, and provisions of this Agreement. If you do not agree to and accept each of the terms, conditions, and provisions of this Agreement, you may not install or use, and must delete from your computer, the Software (and all other materials accompanying the Software)."
+            android:textColor="#000" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp">
+
+            <CheckBox
+                android:id="@+id/terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I accept terms &amp; conditions or privacy policy"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_bg"
+            android:inputType="text"
+            android:text="Submit"
+            android:textColor="#fff" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
 
 
         <RelativeLayout
@@ -62,7 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text=""
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textSize="18sp" />
 
 
         </RelativeLayout>

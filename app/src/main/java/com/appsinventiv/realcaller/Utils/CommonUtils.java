@@ -42,6 +42,7 @@ public class CommonUtils {
             }
         });
     }
+
     public static String getFullAddress(Context context, Double lat, Double lon) {
         String address = "";
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -50,6 +51,54 @@ public class CommonUtils {
             addresses = geocoder.getFromLocation(lat, lon, 1);
 
             address = addresses.get(0).getAddressLine(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
+
+    public static String getCountry(Context context, Double lat, Double lon) {
+        String address = "";
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+
+            address = addresses.get(0).getCountryName();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
+
+    public static String getState(Context context, Double lat, Double lon) {
+        String address = "";
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+
+            address = addresses.get(0).getAdminArea();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
+
+    public static String getCity(Context context, Double lat, Double lon) {
+        String address = "";
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+
+            address = addresses.get(0).getLocality();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e) {

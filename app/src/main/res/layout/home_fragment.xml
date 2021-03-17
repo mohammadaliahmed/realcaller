@@ -26,18 +26,42 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_menu_b" />
 
-            <EditText
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="70dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginRight="70dp"
-                android:background="@drawable/grey_rounded_bg"
-                android:hint="Search numbers,names &amp; more"
-                android:lines="1"
-                android:paddingLeft="10dp"
 
-                android:textSize="14sp" />
+                android:layout_marginRight="70dp"
+                android:background="@drawable/grey_rounded_bg">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@null"
+                    android:hint="Search numbers,names &amp; more"
+                    android:id="@+id/number"
+                    android:imeOptions="actionSearch"
+                    android:inputType="phone"
+                    android:lines="1"
+                    android:paddingLeft="10dp"
+
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:id="@+id/search"
+                    android:layout_height="20dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_search" />
+            </RelativeLayout>
+
 
             <ImageView
                 android:id="@+id/options"

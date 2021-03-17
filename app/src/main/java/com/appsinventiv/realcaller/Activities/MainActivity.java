@@ -124,21 +124,21 @@ public class MainActivity extends AppCompatActivity {
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
         List<NameAndPhone> list = new ArrayList<>();
         HashMap<String, String> contactsMap = SharedPrefs.getContactsMap();
-        if (contactsMap != null) {
-            for (Map.Entry<String, String> entry : contactsMap.entrySet()) {
-                String phone = entry.getKey();
-                String name = entry.getValue();
-                list.add(new NameAndPhone(name, phone));
-
-            }
-        }
+//        if (contactsMap != null) {
+//            for (Map.Entry<String, String> entry : contactsMap.entrySet()) {
+//                String phone = entry.getKey();
+//                String name = entry.getValue();
+//                list.add(new NameAndPhone(name, phone));
+//
+//            }
+//        }
 //
 //
 
-//        list.add(new NameAndPhone("Ahsan Jutt", "+923236994882"));
-//        list.add(new NameAndPhone("Dev", "+923236994883"));
-//        list.add(new NameAndPhone("Test tested", "+923236994884"));
-//        list.add(new NameAndPhone("Ali Ahmed", "+923158000333"));
+        list.add(new NameAndPhone("Ahsan Jutt", "+923236994882"));
+        list.add(new NameAndPhone("Dev", "+923236994883"));
+        list.add(new NameAndPhone("Test tested", "+923236994884"));
+        list.add(new NameAndPhone("Ali Ahmed", "+923158000333"));
 
         SaveContactModel model = new SaveContactModel(list);
 
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                CommonUtils.showToast(t.getMessage());
+//                CommonUtils.showToast(t.getMessage());
 
             }
         });

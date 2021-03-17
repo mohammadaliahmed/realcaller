@@ -7,8 +7,12 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +42,11 @@ public class SearchNumber extends AppCompatActivity {
     TextView dataTv;
     ProgressBar progress;
     RelativeLayout asdasdas;
+    LinearLayout searchLayout;
+    CheckBox terms;
+    Button submit;
+    private boolean termsChecked;
+    LinearLayout agreementLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +59,51 @@ public class SearchNumber extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
         this.setTitle("Search Location");
+        agreementLayout = findViewById(R.id.agreementLayout);
+        submit = findViewById(R.id.submit);
+        terms = findViewById(R.id.terms);
         search = findViewById(R.id.search);
         asdasdas = findViewById(R.id.asdasdas);
+        searchLayout = findViewById(R.id.searchLayout);
         number = findViewById(R.id.number);
         dataTv = findViewById(R.id.data);
         progress = findViewById(R.id.progress);
         number.setText(Constants.CALL_NUMBER);
 
+        terms.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isPressed()) {
+                    if (isChecked) {
+                        termsChecked = true;
+                    }
+                }
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (termsChecked) {
+                    SharedPrefs.setAgreement("done");
+                    searchLayout.setVisibility(View.VISIBLE);
+                    agreementLayout.setVisibility(View.GONE);
+                } else {
+                    CommonUtils.showToast("Please accept terms and conditions");
+                }
+            }
+        });
+
 //        dataTv.setText("Location: " + CommonUtils.getFullAddress(SearchNumber.this, 31.5325656,74.338289));
+
+
+        if (SharedPrefs.getAgreement().equalsIgnoreCase("done")) {
+            searchLayout.setVisibility(View.VISIBLE);
+            agreementLayout.setVisibility(View.GONE);
+        } else {
+            searchLayout.setVisibility(View.GONE);
+            agreementLayout.setVisibility(View.VISIBLE);
+        }
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +126,10 @@ public class SearchNumber extends AppCompatActivity {
         String num = number.getText().toString();
 //        num = "03075323974";
 
-        Call<ApiResponse> call = getResponse.searchByPhone(num, true, "berer " + SharedPrefs.getToken());
+        String token = SharedPrefs.getToken();
+        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNTFhNmZkYzM1NWI4MDAxNTYxOGFmYSIsImlhdCI6MTYxNTk2MzkwMX0.Nm231S8zGD4wCGeY037mRI35Im4p5j2bt86qBYSPjMA";
+
+        Call<ApiResponse> call = getResponse.searchByPhone(num, true, "berer " + token);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -88,10 +137,17 @@ public class SearchNumber extends AppCompatActivity {
                 if (response.code() == 200) {
                     if (response.body().getData() != null) {
                         Data data = (Data) response.body().getData();
-                        if (response.body().getMessage().equalsIgnoreCase("reached free Limit")) {
+                        if (response.body().getData().getPhone().equalsIgnoreCase("")) {
                             CommonUtils.showToast(response.body().getMessage());
                         } else {
-                            dataTv.setText(data.getName() + "\n" + data.getPhone() + "\n\nLocation: " + CommonUtils.getFullAddress(SearchNumber.this, data.getLat(), data.getLon()));
+                            if (data.getLat() == 0) {
+                                dataTv.setText("Name: " + data.getName() + "\nPhone: " + data.getPhone() + "\n\nLocation: Not found");
+                            } else {
+                                dataTv.setText("Name: " + data.getName() + "\nPhone: " + data.getPhone()
+                                        + "\n\nCountry: " + CommonUtils.getCountry(SearchNumber.this, data.getLat(), data.getLon())
+                                        + "\nState: " + CommonUtils.getState(SearchNumber.this, data.getLat(), data.getLon())
+                                        + "\nCity: " + CommonUtils.getCity(SearchNumber.this, data.getLat(), data.getLon()));
+                            }
                         }
 
                     } else {

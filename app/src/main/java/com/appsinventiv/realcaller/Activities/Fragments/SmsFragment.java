@@ -165,7 +165,7 @@ public class SmsFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         adapter = new SmsAdapter(getActivity(), smsList, new SmsAdapter.SmsAdapterCallbacks() {
             @Override
-            public void onClick(SmsModel model,int position) {
+            public void onClick(SmsModel model, int position) {
                 showSmsView(model);
 
             }
@@ -192,6 +192,13 @@ public class SmsFragment extends Fragment {
 
 
         // add the buttons
+        builder.setNeutralButton("Mark as Spam", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                CommonUtils.showToast("Marked as spam");
+                dialog.dismiss();
+            }
+        });
         builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

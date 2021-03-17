@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="150dp">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="RealCaller Search"
+                android:textColor="#000" />
+
+            <RelativeLayout
+                android:id="@+id/searchResultLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="15dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/nameInitial"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/round_blue_bg"
+                    android:gravity="center"
+                    android:src="@drawable/user"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/nameInitial"
+                    android:text="Ali Ahmed"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_toRightOf="@id/nameInitial"
+                    android:lines="1"
+                    android:text="Ali AHmed"
+                    android:textSize="11sp" />
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/close"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/btn_bg"
+                android:inputType="text"
+                android:text="Close"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

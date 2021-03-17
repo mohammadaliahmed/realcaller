@@ -85,6 +85,14 @@ public class SharedPrefs {
         return preferenceGetter("getEmail");
     }
 
+    public static void setAgreement(String username) {
+        preferenceSetter("setAgreement", username);
+    }
+
+    public static String getAgreement() {
+        return preferenceGetter("setAgreement");
+    }
+
     public static void setEmail(String username) {
         preferenceSetter("getEmail", username);
     }
